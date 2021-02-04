@@ -26,6 +26,33 @@ it("should say hello", function() {
 // This is called "Red-Green-Refactor"
 // ========================================================
 
+it("Should return the area of a rectangle.", ()=>{
+  const area = utils.area(2,3)
+  expect(area).to.be.a("number")
+  expect(area).to.equal(6)
+})
+
+it("Should return the perimeter of a rectangle.", ()=>{
+  const perim = utils.perimeter(2,6)
+  expect(perim).to.be.a("number")
+  expect(perim).to.equal(16)
+})
+
+it("Should return the area of a circle given its radius.", ()=>{
+  const area = utils.circleArea(1)
+  expect(area).to.be.a("number")
+  expect(area).to.equal(3.1415926)
+})
+
+it("Should return null if given negative numbers.", ()=>{
+  const circleArea = utils.circleArea(-1)
+  const rectangleArea = utils.area(-1,7)
+  const rectanglePerim = utils.perimeter(-3,4)
+  expect(circleArea).to.equal(null)
+  expect(rectangleArea).to.equal(null)
+  expect(rectanglePerim).to.equal(null)
+})
+
 
 
 
@@ -50,13 +77,53 @@ it("Should create a new (object) Item with name and price", function() {
   expect(item).to.have.property("quantity", 1)
 })
 
-it("Should return an array containing all items in cart")
+it("Should return an array containing all items in cart", ()=>{
+  const cart = utils.getShoppingCart()
+  expect(cart).to.be.a("array")
+  expect(cart.length).to.equal(0)
+})
 
-it("Should add a new item to the shopping cart")
+it("Should add a new item to the shopping cart", ()=>{
+  const item = utils.createItem("apple", 3.99)
+  utils.addItemToCart(item)
+  const cart = utils.getShoppingCart()
+  expect(cart).to.be.a("array")
+  expect(cart.length).to.equal(1)
+  expect(cart[0]).to.be.a("object")
+  expect(cart[0]).to.have.property("name", "apple")
+})
 
-it("Should return the number of items in the cart")
+it("Should return the number of items in the cart", ()=>{
+  const item = utils.createItem("apple", 3.99)
+  utils.addItemToCart(item)
+  utils.addItemToCart(item)
+  const cart = utils.getShoppingCart()
+  expect(cart.length).to.equal(1)
+  const numberOfItemsInCart = utils.getNumItemsInCart()
+  expect(numberOfItemsInCart).to.be.a("number")
+  expect(numberOfItemsInCart).to.equal(2)
+})
 
-it("Should remove items from cart")
+it("Should remove items from cart", ()=>{
+  const item = utils.createItem("apple", 3.99)
+  const item2 = utils.createItem("orange", 4.99)
+  utils.addItemToCart(item)
+  utils.addItemToCart(item2)
+  utils.addItemToCart(item)
+  utils.addItemToCart(item2)
+
+  utils.removeItemFromCart(item)
+  utils.removeItemFromCart(item)
+  utils.removeItemFromCart(item2)
+
+  utils.addItemToCart(item2)
+
+  const cart = utils.getShoppingCart()
+  expect(cart.length).to.equal(1)
+  const numberOfItemsInCart = utils.getNumItemsInCart()
+  expect(numberOfItemsInCart).to.equal(2)
+  expect(cart[0]).to.have.property("name", "orange")
+})
 
 // ========================================================
 // Stretch Challenges
